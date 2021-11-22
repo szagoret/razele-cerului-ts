@@ -4,6 +4,7 @@ import {chain, sortBy} from "lodash";
 import db from "../db/db.json";
 import Cantare from "../src/components/Cantare";
 
+// @ts-ignore
 const Home = ({songs}) => {
     return (
         <Container>
