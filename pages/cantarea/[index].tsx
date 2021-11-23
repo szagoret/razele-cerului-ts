@@ -9,6 +9,8 @@ import SlideShowSong from "../../src/components/SlideShowSong";
 import * as React from "react";
 import {useState} from "react";
 import SlideshowIcon from '@mui/icons-material/Slideshow';
+import Link from '../../src/components/Link';
+import TocIcon from '@mui/icons-material/Toc';
 
 const Index = ({song}: SongPropType) => {
     const [open, setOpen] = useState(false);
@@ -20,9 +22,13 @@ const Index = ({song}: SongPropType) => {
                     <Typography variant="h6" color="inherit" component="div">
                         {`${song.index} ${song.title}`}
                     </Typography>
-                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{ ml: 2 }} onClick={() => setOpen(true)}>
+                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{ml: 2}}
+                                onClick={() => setOpen(true)}>
                         <SlideshowIcon fontSize={"large"}/>
                     </IconButton>
+                    <Link href="/cuprins" sx={{color: "#fff", paddingTop: '8px'}} passHref>
+                        <TocIcon fontSize={"large"}/>
+                    </Link>
                 </Toolbar>
             </AppBar>
             <Container sx={{p: 3, display: "flex", justifyContent: "center"}}>
