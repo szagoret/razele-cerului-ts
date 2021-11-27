@@ -5,6 +5,7 @@ import {
     AppBar,
     Autocomplete,
     Box,
+    Button,
     Container,
     Grid,
     InputBase,
@@ -12,7 +13,8 @@ import {
     ListItem,
     ListItemButton,
     ListItemText,
-    Toolbar
+    Toolbar,
+    Typography
 } from "@mui/material";
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
@@ -20,6 +22,8 @@ import {GetStaticProps} from "next";
 import {chain, chunk, sortBy} from "lodash";
 import db from "../db/database.json";
 import {useRouter} from "next/router";
+import brandImage from '../public/sun-rays-md.png';
+import Image from 'next/image'
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -67,8 +71,31 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
     const arrayOfSongs: Array<Array<{ index: number, title: string }>> = chunk(sortBy(songs, ["index"]), 100);
     return (
         <Box sx={{flexGrow: 1}}>
-            <AppBar position="sticky">
-                <Toolbar>
+            <AppBar position="sticky" sx={{
+                backgroundColor: '#2a9d8f'
+            }}>
+                <Toolbar sx={{
+                    display: 'flex',
+                    alignContent: 'center'
+                }}>
+                    <Button onClick={() => router.push('/').finally()}>
+                        <Box sx={{
+                            display: {
+                                xs: 'none', sm: 'block'
+                            }
+                        }}>
+                            <Image
+                                src={brandImage}
+                                alt="Branc image"
+                                width={40}
+                                height={40}
+                                placeholder="blur"
+                            />
+                        </Box>
+                        <Typography variant={"subtitle2"} sx={{color: '#fff'}}>
+                            Razele Cerului
+                        </Typography>
+                    </Button>
                     <Grid container sx={{
                         display: 'flex',
                         justifyContent: 'center'
