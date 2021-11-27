@@ -11,7 +11,7 @@ type SongProps = {
 const Song = ({song}: SongProps) => {
 
     return (
-        <Card sx={{minWidth: 400, maxWidth: 500}}>
+        <Card sx={{minWidth: 400, maxWidth: 500}} elevation={0}>
             <CardContent>
                 <Typography variant="body2" sx={{whiteSpace: 'pre-wrap'}}>
                     {

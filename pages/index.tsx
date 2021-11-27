@@ -24,6 +24,7 @@ import db from "../db/database.json";
 import {useRouter} from "next/router";
 import brandImage from '../public/sun-rays-md.png';
 import Image from 'next/image'
+import SongAppBar from "../src/components/SongAppBar";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -71,80 +72,7 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
     const arrayOfSongs: Array<Array<{ index: number, title: string }>> = chunk(sortBy(songs, ["index"]), 100);
     return (
         <Box sx={{flexGrow: 1}}>
-            <AppBar position="sticky" sx={{
-                backgroundColor: '#2a9d8f'
-            }}>
-                <Toolbar sx={{
-                    display: 'flex',
-                    alignContent: 'center'
-                }}>
-                    <Button onClick={() => router.push('/').finally()}>
-                        <Box sx={{
-                            display: {
-                                xs: 'none', sm: 'block'
-                            }
-                        }}>
-                            <Image
-                                src={brandImage}
-                                alt="Branc image"
-                                width={40}
-                                height={40}
-                                placeholder="blur"
-                            />
-                        </Box>
-                        <Typography variant={"subtitle2"} sx={{color: '#fff'}}>
-                            Razele Cerului
-                        </Typography>
-                    </Button>
-                    <Grid container sx={{
-                        display: 'flex',
-                        justifyContent: 'center'
-                    }}>
-                        <Grid item xs={12} md={6} lg={4}>
-                            <Autocomplete id="search-songs"
-                                          getOptionLabel={(option) => option.title}
-                                          options={filterSongs}
-                                          onChange={(event: any, newValue: { index: number, title: string } | null) => router.push(`/cantarea/${newValue?.index}`).finally()}
-                                          renderOption={(props, option, {inputValue}) => {
-                                              const matches = match(option.title, inputValue);
-                                              const parts = parse(option.title, matches);
-                                              return (
-                                                  <li {...props}>
-                                                      <div>
-                                                          {parts.map((part, index) => (
-                                                              <span key={index}
-                                                                    style={{
-                                                                        fontWeight: part.highlight ? 700 : 400,
-                                                                        color: part.highlight ? 'red' : 'inherit'
-                                                                    }}>
-                                                          {part.text}
-                                                      </span>
-                                                          ))}
-                                                      </div>
-                                                  </li>
-                                              );
-                                          }}
-                                          renderInput={(params) => {
-                                              return (
-                                                  <Search>
-                                                      <SearchIconWrapper>
-                                                          <SearchIcon/>
-                                                      </SearchIconWrapper>
-                                                      <StyledInputBase ref={params.InputProps.ref}
-                                                                       placeholder="Caută…"
-                                                                       inputProps={{
-                                                                           'aria-label': 'search',
-                                                                           width: '100%', ...params.inputProps
-                                                                       }}
-                                                      />
-                                                  </Search>
-                                              );
-                                          }}
-                            />
-                        </Grid>
-                    </Grid>
-                </Toolbar>
-            </AppBar>
+            <SongAppBar songs={filterSongs} />
             <Container>
                 <Grid container spacing={2} sx={{p: 1}}>
                     {

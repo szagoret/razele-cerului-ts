@@ -1,46 +1,41 @@
 import database from '../../db/database.json';
-import {find} from 'lodash';
+import {find, sortBy} from 'lodash';
 import {GetStaticProps} from "next";
-import {SongPropType} from "../cuprins";
-import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
+import {SongType} from "../cuprins";
+import {Container, Grid, Typography} from "@mui/material";
 import Song from "../../src/components/Song";
 import SlideShowSong from "../../src/components/SlideShowSong";
 import * as React from "react";
 import {useState} from "react";
-import SlideshowIcon from '@mui/icons-material/Slideshow';
-import HomeIcon from '@mui/icons-material/Home';
 import {useRouter} from "next/router";
+import SongAppBar from "../../src/components/SongAppBar";
 
-const Index = ({song}: SongPropType) => {
+const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, title: string }> }) => {
     const [open, setOpen] = useState(false);
     const router = useRouter();
     return (
         <>
-            <AppBar position="static">
-                <Toolbar variant="dense" sx={{display: 'flex', justifyContent: 'space-evenly'}}>
-                    <Button onClick={() => router.push(`/`).finally()}>
-                        <HomeIcon sx={{color: '#fff', mr: 1}}/>
-                        <Typography variant={"button"} sx={{
-                            pt: 1,
-                            color: '#fff',
-                            display: {
-                                xs: 'none', sm: 'block'
-                            }
-                        }}>
-                            Prima pagină
+            <SongAppBar songs={songs}/>
+            <Container sx={{p: 3, display: "flex", justifyContent: "center", flexDirection: 'column'}}>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Typography variant={"h6"}
+                                    align={"center"}
+                                    sx={{
+                                        borderBottom: "1px solid",
+                                        borderColor: '#dfdfdf',
+                                        color: '#4c4c4c'
+                                    }}>
+                            {`${song.index}. ${song.title}`}
                         </Typography>
-                    </Button>
-                    <Typography variant="h6" color="inherit" component="div">
-                        {`${song.index}. ${song.title}`}
-                    </Typography>
-                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{ml: 2}}
-                                onClick={() => setOpen(true)}>
-                        <SlideshowIcon fontSize={"large"}/>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-            <Container sx={{p: 3, display: "flex", justifyContent: "center"}}>
-                <Song song={song}/>
+                    </Grid>
+                    <Grid item xs={12} sx={{
+                        display: 'flex',
+                        justifyContent: 'center'
+                    }}>
+                        <Song song={song}/>
+                    </Grid>
+                </Grid>
                 <SlideShowSong song={song} open={open} handleClose={() => setOpen(false)}/>
             </Container>
         </>
@@ -60,6 +55,13 @@ export const getStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps = ({params}) => {
-    console.log(params);
-    return ({props: {song: find(database, ["index", parseInt(params?.index as string)])}});
+    return ({
+        props: {
+            song: find(database, ["index", parseInt(params?.index as string)]),
+            songs: sortBy(database.map((song) => ({
+                index: song.index,
+                title: `${song.index}. ${song.title}`
+            })), ["index"]),
+        }
+    });
 };
