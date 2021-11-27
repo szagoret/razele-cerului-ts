@@ -2,33 +2,41 @@ import database from '../../db/database.json';
 import {find} from 'lodash';
 import {GetStaticProps} from "next";
 import {SongPropType} from "../cuprins";
-import {AppBar, Container, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
 import Song from "../../src/components/Song";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import SlideShowSong from "../../src/components/SlideShowSong";
 import * as React from "react";
 import {useState} from "react";
 import SlideshowIcon from '@mui/icons-material/Slideshow';
-import Link from '../../src/components/Link';
-import TocIcon from '@mui/icons-material/Toc';
+import HomeIcon from '@mui/icons-material/Home';
+import {useRouter} from "next/router";
 
 const Index = ({song}: SongPropType) => {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
     return (
         <>
             <AppBar position="static">
-                <Toolbar variant="dense" sx={{display: 'flex', justifyContent: 'center'}}>
-                    <MusicNoteIcon/>
+                <Toolbar variant="dense" sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+                    <Button onClick={() => router.push(`/`).finally()}>
+                        <HomeIcon sx={{color: '#fff', mr: 1}}/>
+                        <Typography variant={"button"} sx={{
+                            pt: 1,
+                            color: '#fff',
+                            display: {
+                                xs: 'none', sm: 'block'
+                            }
+                        }}>
+                            Prima pagină
+                        </Typography>
+                    </Button>
                     <Typography variant="h6" color="inherit" component="div">
-                        {`${song.index} ${song.title}`}
+                        {`${song.index}. ${song.title}`}
                     </Typography>
                     <IconButton edge="start" color="inherit" aria-label="menu" sx={{ml: 2}}
                                 onClick={() => setOpen(true)}>
                         <SlideshowIcon fontSize={"large"}/>
                     </IconButton>
-                    <Link href="/cuprins" sx={{color: "#fff", paddingTop: '8px'}} passHref>
-                        <TocIcon fontSize={"large"}/>
-                    </Link>
                 </Toolbar>
             </AppBar>
             <Container sx={{p: 3, display: "flex", justifyContent: "center"}}>
