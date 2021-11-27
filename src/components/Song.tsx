@@ -1,7 +1,7 @@
-import {SongType} from "../../pages/cuprins";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import Stanza from "./Stanza";
+import {SongType} from "../../song";
 
 type SongProps = {
     song: SongType

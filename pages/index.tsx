@@ -1,64 +1,11 @@
 import * as React from 'react';
-import {alpha, styled} from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
-import {
-    AppBar,
-    Autocomplete,
-    Box,
-    Button,
-    Container,
-    Grid,
-    InputBase,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    Toolbar,
-    Typography
-} from "@mui/material";
-import parse from 'autosuggest-highlight/parse';
-import match from 'autosuggest-highlight/match';
+import {Box, Container, Grid, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import {GetStaticProps} from "next";
 import {chain, chunk, sortBy} from "lodash";
-import db from "../db/database.json";
+import db from "../db/db-2021.json";
 import {useRouter} from "next/router";
-import brandImage from '../public/sun-rays-md.png';
-import Image from 'next/image'
 import SongAppBar from "../src/components/SongAppBar";
 
-const Search = styled('div')(({theme}) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%'
-}));
-
-const SearchIconWrapper = styled('div')(({theme}) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%'
-    },
-    width: '100%'
-}));
 
 type HomePagePropTypes = {
     songs: Array<{ index: number, title: string }>,
@@ -72,7 +19,7 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
     const arrayOfSongs: Array<Array<{ index: number, title: string }>> = chunk(sortBy(songs, ["index"]), 100);
     return (
         <Box sx={{flexGrow: 1}}>
-            <SongAppBar songs={filterSongs} />
+            <SongAppBar songs={filterSongs}/>
             <Container>
                 <Grid container spacing={2} sx={{p: 1}}>
                     {
@@ -88,7 +35,6 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
                                                         onClick={() => {
                                                             router.push(`/cantarea/${s.index}`).finally();
                                                         }}
-                                                        // secondary={secondary ? 'Secondary text' : null}
                                                     />
                                                 </ListItemButton>
                                             </ListItem>

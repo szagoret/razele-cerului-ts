@@ -80,6 +80,7 @@ const SongAppBar = ({songs}: SongAppBarPropTypes) => {
                 }}>
                     <Grid item xs={12} md={6} lg={4}>
                         <Autocomplete id="search-songs"
+                                      autoComplete
                                       getOptionLabel={(option) => option.title}
                                       options={songs}
                                       onChange={(event: any, newValue: { index: number, title: string } | null) => router.push(`/cantarea/${newValue?.index}`).finally()}

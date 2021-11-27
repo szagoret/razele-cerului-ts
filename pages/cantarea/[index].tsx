@@ -1,7 +1,6 @@
-import database from '../../db/database.json';
+import database from '../../db/db-2021.json';
 import {find, sortBy} from 'lodash';
 import {GetStaticProps} from "next";
-import {SongType} from "../cuprins";
 import {Container, Grid, Typography} from "@mui/material";
 import Song from "../../src/components/Song";
 import SlideShowSong from "../../src/components/SlideShowSong";
@@ -9,6 +8,7 @@ import * as React from "react";
 import {useState} from "react";
 import {useRouter} from "next/router";
 import SongAppBar from "../../src/components/SongAppBar";
+import {SongType} from "../../song";
 
 const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, title: string }> }) => {
     const [open, setOpen] = useState(false);
