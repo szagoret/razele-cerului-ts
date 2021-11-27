@@ -93,7 +93,7 @@ const SongAppBar = ({songs}: SongAppBarPropTypes) => {
                                                           <span key={index}
                                                                 style={{
                                                                     fontWeight: part.highlight ? 700 : 400,
-                                                                    color: part.highlight ? 'red' : 'inherit'
+                                                                    color: part.highlight ? '#e76f51' : 'inherit'
                                                                 }}>
                                                           {part.text}
                                                       </span>
