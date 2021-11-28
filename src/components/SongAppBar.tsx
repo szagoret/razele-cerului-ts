@@ -7,6 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import {alpha, styled} from "@mui/material/styles";
 import {useRouter} from "next/router";
+import {matchSorter} from "match-sorter";
 
 
 const Search = styled('div')(({theme}) => ({
@@ -48,6 +49,11 @@ type SongAppBarPropTypes = {
 };
 const SongAppBar = ({songs}: SongAppBarPropTypes) => {
     const router = useRouter();
+    const filterOptions = (options: Array<{ index: number, title: string }>, {inputValue}: { inputValue: string }) => {
+        return matchSorter(options, inputValue, {
+            keys: ['title'],
+        });
+    };
     return (
         <AppBar position="sticky" sx={{
             backgroundColor: '#2a9d8f'
@@ -64,7 +70,7 @@ const SongAppBar = ({songs}: SongAppBarPropTypes) => {
                     }}>
                         <Image
                             src={brandImage}
-                            alt="Branc image"
+                            alt="Brand image"
                             width={40}
                             height={40}
                             placeholder="blur"
@@ -81,8 +87,10 @@ const SongAppBar = ({songs}: SongAppBarPropTypes) => {
                     <Grid item xs={12} md={6} lg={4}>
                         <Autocomplete id="search-songs"
                                       autoComplete
+                                      selectOnFocus
                                       getOptionLabel={(option) => option.title}
                                       options={songs}
+                                      filterOptions={filterOptions}
                                       onChange={(event: any, newValue: { index: number, title: string } | null) => router.push(`/cantarea/${newValue?.index}`).finally()}
                                       renderOption={(props, option, {inputValue}) => {
                                           const matches = match(option.title, inputValue);

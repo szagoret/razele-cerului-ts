@@ -6,16 +6,13 @@ import Song from "../../src/components/Song";
 import SlideShowSong from "../../src/components/SlideShowSong";
 import * as React from "react";
 import {useState} from "react";
-import {useRouter} from "next/router";
-import SongAppBar from "../../src/components/SongAppBar";
 import {SongType} from "../../song";
+import Layout from "../../src/components/Layout";
 
 const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, title: string }> }) => {
     const [open, setOpen] = useState(false);
-    const router = useRouter();
     return (
-        <>
-            <SongAppBar songs={songs}/>
+        <Layout title={`${song.index}. ${song.title}`} songs={songs}>
             <Container sx={{p: 3, display: "flex", justifyContent: "center", flexDirection: 'column'}}>
                 <Grid container>
                     <Grid item xs={12}>
@@ -38,7 +35,7 @@ const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, ti
                 </Grid>
                 <SlideShowSong song={song} open={open} handleClose={() => setOpen(false)}/>
             </Container>
-        </>
+        </Layout>
     );
 };
 
