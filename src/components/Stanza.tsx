@@ -1,7 +1,7 @@
-import {StanzaType} from "../../pages/cuprins";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import {Box} from "@mui/system";
+import {StanzaType} from "../../song";
 
 type StanzaPropsType = {
     stanza: StanzaType

@@ -1,4 +1,3 @@
-import {SongType} from "../../pages/cuprins";
 import * as React from 'react';
 import {useState} from 'react';
 import Dialog from '@mui/material/Dialog';
@@ -13,6 +12,7 @@ import SwipeableViews from 'react-swipeable-views';
 import {Box} from "@mui/system";
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import {SongType} from "../../song";
 
 type SlideShowSongPropsType = {
     song: SongType,
