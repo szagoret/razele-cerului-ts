@@ -1,7 +1,7 @@
-import Typography from "@mui/material/Typography";
 import * as React from "react";
 import Stanza from "./Stanza";
 import {SongType} from "../../song";
+import {Box} from "@mui/material";
 
 type SongProps = {
     song: SongType
@@ -9,13 +9,13 @@ type SongProps = {
 const Song = ({song}: SongProps) => {
 
     return (
-        <Typography variant="body2" sx={{whiteSpace: 'pre-wrap'}}>
+        <Box sx={{display: "flex", flexDirection: "column"}}>
             {
                 song.stanzas.map((stanza, i) => (
                     <Stanza stanza={stanza} key={i}/>
                 ))
             }
-        </Typography>
+        </Box>
     );
 };
 
