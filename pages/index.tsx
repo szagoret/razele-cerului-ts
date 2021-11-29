@@ -25,7 +25,6 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
                     components: {
                         MuiListItemButton: {
                             defaultProps: {
-                                disableTouchRipple: true,
                             },
                         }
                     },
