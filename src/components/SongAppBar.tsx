@@ -60,9 +60,11 @@ const SongAppBar = ({songs}: SongAppBarPropTypes) => {
         }}>
             <Toolbar sx={{
                 display: 'flex',
-                alignContent: 'center'
+                alignContent: 'center',
+                pl:0
             }}>
-                <Button onClick={() => router.push('/').finally()}>
+                <Button sx={{pl:0}}
+                    onClick={() => router.push('/').finally()}>
                     <Box sx={{
                         display: {
                             xs: 'none', sm: 'block'

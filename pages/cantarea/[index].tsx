@@ -3,14 +3,11 @@ import {find, sortBy} from 'lodash';
 import {GetStaticProps} from "next";
 import {Container, Grid, Typography} from "@mui/material";
 import Song from "../../src/components/Song";
-import SlideShowSong from "../../src/components/SlideShowSong";
-import * as React from "react";
-import {useState} from "react";
+import React, {useState} from "react";
 import {SongType} from "../../song";
 import Layout from "../../src/components/Layout";
 
 const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, title: string }> }) => {
-    const [open, setOpen] = useState(false);
     return (
         <Layout title={`${song.index}. ${song.title}`} songs={songs}>
             <Container sx={{p: 3, display: "flex", justifyContent: "center", flexDirection: 'column'}}>
@@ -33,7 +30,6 @@ const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, ti
                         <Song song={song}/>
                     </Grid>
                 </Grid>
-                <SlideShowSong song={song} open={open} handleClose={() => setOpen(false)}/>
             </Container>
         </Layout>
     );
