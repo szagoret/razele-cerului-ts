@@ -93,7 +93,7 @@ const SongAppBar = ({songs}: SongAppBarPropTypes) => {
                                       getOptionLabel={(option) => option.title}
                                       options={songs}
                                       filterOptions={filterOptions}
-                                      onChange={(event: any, newValue: { index: number, title: string } | null) => router.push(`/cantarea/${newValue?.index}`).finally()}
+                                      onChange={(event: any, newValue: { index: number, title: string } | null) => newValue && router.push(`/cantarea/${newValue.index}`).finally()}
                                       renderOption={(props, option, {inputValue}) => {
                                           const matches = match(option.title, inputValue);
                                           const parts = parse(option.title, matches);

@@ -14,7 +14,7 @@ const Stanza = ({stanza}: StanzaPropsType) => {
                 {stanza.type === "stanza" ? `Strofa ${stanza.sequence}` : 'Refren'}
             </Typography>
             {stanza.lines.map((line, i) => (
-                <Typography key={i} variant="body1" sx={{whiteSpace: 'pre-wrap'}}>
+                <Typography key={i} variant="body1" sx={{whiteSpace: 'pre-wrap', fontSize: '1.2rem'}}>
                     {line}
                 </Typography>
             ))}
