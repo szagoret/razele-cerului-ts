@@ -19,7 +19,7 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
     })).value(), ["index"]);
     const arrayOfSongs: Array<Array<{ index: number, title: string }>> = chunk(sortBy(songs, ["index"]), 100);
     return (
-        <Layout title="Razele Cerului" songs={filterSongs}>
+        <Layout title="Razele Cerului" songs={filterSongs} thumbPath="razelecerului.jpg">
             <ThemeProvider
                 theme={createTheme({
                     components: {

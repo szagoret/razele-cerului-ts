@@ -12,7 +12,7 @@ export default class MyDocument extends Document {
                     <meta name="theme-color" content="#2a9d8f" />
                     <meta property="og:title" content="Razele Cerului" />
                     <meta property="og:description" content="O carte de cantari duhovnicesti" />
-                    <meta property="og:image" content="https://i.postimg.cc/GhgDBFQ2/image.png" />
+                    <meta property="og:image" content="/thumb/razelecerului.jpg" />
                     <meta name="google-site-verification" content="sVjeWi_5fRlTI5G1punzs8BcjOc__cTioK9fSq-0JuQ" />
                     <link
                         rel="stylesheet"

@@ -3,13 +3,13 @@ import {find, sortBy} from 'lodash';
 import {GetStaticProps} from "next";
 import {Container, Grid, Typography} from "@mui/material";
 import Song from "../../src/components/Song";
-import React, {useState} from "react";
+import React from "react";
 import {SongType} from "../../song";
 import Layout from "../../src/components/Layout";
 
 const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, title: string }> }) => {
     return (
-        <Layout title={`${song.index}. ${song.title}`} songs={songs}>
+        <Layout title={`${song.index}. ${song.title}`} songs={songs} thumbPath={`rc-${song.index}.jpeg`}>
             <Container sx={{p: 3, display: "flex", justifyContent: "center", flexDirection: 'column'}}>
                 <Grid container>
                     <Grid item xs={12}>
