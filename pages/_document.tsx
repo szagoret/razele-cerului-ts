@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
-import theme from "../src/styles/theme";
 import createEmotionCache from "../src/styles/createEmotionCache";
 
 export default class MyDocument extends Document {
@@ -10,7 +9,7 @@ export default class MyDocument extends Document {
             <Html lang="en">
                 <Head>
                     {/* PWA primary color */}
-                    <meta name="theme-color" content={theme.palette.primary.main} />
+                    <meta name="theme-color" content="#2a9d8f" />
                     <meta property="og:title" content="Razele Cerului" />
                     <meta property="og:description" content="O carte de cantari duhovnicesti" />
                     <meta property="og:image" content="https://i.postimg.cc/GhgDBFQ2/image.png" />
