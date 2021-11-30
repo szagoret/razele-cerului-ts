@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {chain, omit, replace, slice, split} from "lodash";
+import {chain, omit, reduce, replace, size, slice, split} from "lodash";
 import db from "../../db/razele-cerului_2021_raw.json";
 
 
@@ -7,7 +7,7 @@ export default function transform(req: NextApiRequest, res: NextApiResponse<any>
     const fDb = chain(db)
         .map((hymnArr: Array<any>) => ({
             index: parseInt(hymnArr[0], 0),
-            title: hymnArr[1],
+            title: replace(hymnArr[1], /\n*.\n*$/, (m, a) => ''),
             lyrics: hymnArr[6]
         }))
         .map((song) => {
@@ -40,5 +40,8 @@ export default function transform(req: NextApiRequest, res: NextApiResponse<any>
         })
         .value();
 
-    res.status(200).json(fDb)
+    // @ts-ignore
+    const longestSongTitle = reduce(fDb, (acc, song) => size(acc.title) < size(song.title) ? song : acc);
+
+    res.status(200).json({})
 }
