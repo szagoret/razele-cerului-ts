@@ -13,6 +13,7 @@ export default class MyDocument extends Document {
                     <meta property="og:title" content="Razele Cerului" />
                     <meta property="og:description" content="O carte de cantari duhovnicesti" />
                     <meta property="og:image" content="https://i.postimg.cc/GhgDBFQ2/image.png" />
+                    <meta name="google-site-verification" content="EYBqUmdKqTDNECBzmmGy_qDL8rAmUhCJO5ZuA4S5fEU" />
                     <link
                         rel="stylesheet"
                         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
