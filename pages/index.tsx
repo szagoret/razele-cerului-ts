@@ -39,7 +39,7 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
                                         <List dense>
                                             {
                                                 ch.map((s: { index: number, title: string }, i: number) => (
-                                                    <ListItem key={s.index}>
+                                                    <ListItem key={`${s.index}-${i}`}>
                                                         <ListItemButton>
                                                             <ListItemText
                                                                 primary={`${s.index}. ${s.title}`}
