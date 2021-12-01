@@ -22,6 +22,14 @@ const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, ti
                                     }}>
                             {`${song.index}. ${song.title}`}
                         </Typography>
+                        <Typography variant={"caption"}
+                                    component={"h6"}
+                                    align={"center"}
+                                    sx={{
+                                        color: '#4c4c4c'
+                                    }}>
+                            {song.topic}
+                        </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{
                         display: 'flex',

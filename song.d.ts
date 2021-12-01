@@ -7,5 +7,6 @@ export type StanzaType = {
 export type SongType = {
     index: number,
     title: string,
-    stanzas: Array<StanzaType>
+    stanzas: Array<StanzaType>,
+    topic: string
 };
