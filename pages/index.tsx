@@ -1,11 +1,18 @@
 import * as React from 'react';
-import {Box, Container, Grid, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
-import {GetStaticProps} from "next";
-import {chain, chunk, sortBy} from "lodash";
-import db from "../db/db-2021.json";
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import {chain, chunk, sortBy} from 'lodash';
 import {useRouter} from "next/router";
 import Layout from "../src/components/Layout";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
+import client from "../apollo-client";
+import {gql} from "@apollo/client";
+import {SongType} from "../song";
 
 
 type HomePagePropTypes = {
@@ -24,8 +31,7 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
                 theme={createTheme({
                     components: {
                         MuiListItemButton: {
-                            defaultProps: {
-                            },
+                            defaultProps: {},
                         }
                     },
                 })}
@@ -44,7 +50,7 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
                                                             <ListItemText
                                                                 primary={`${s.index}. ${s.title}`}
                                                                 onClick={() => {
-                                                                    router.push(`/cantarea/${s.index}`).finally();
+                                                                    router.push(`/cantarea/${s.index}`, undefined, {shallow: true}).finally();
                                                                 }}
                                                             />
                                                         </ListItemButton>
@@ -63,15 +69,43 @@ const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
     );
 };
 
-export const getStaticProps: GetStaticProps = (context) => {
-    // Call an external API endpoint to get posts.
-    // You can use any data fetching library
-    // By returning { props: { posts } }, the Blog component
-    // will receive `posts` as a prop at build time
-    return {
-        props: {
-            songs: sortBy(db.map((song) => ({index: song.index, title: song.title})), ["index"]),
-        },
+export async function getStaticProps({params}: any) {
+    const {data: {songs: {data: songs}}} = await client.query({
+        query: gql`
+        query {
+songs(pagination: { limit: 1000 }) {
+    data {
+      attributes {
+        title
+        textjson
+        topic {
+          data {
+            attributes {
+              value
+            }
+          }
+        }
+        index
+      }
     }
+  }
 }
+      `,
+    });
+    return ({
+        props: {
+            songs: sortBy(songs.filter((s: any) => !!s.attributes).map(({attributes}: any) => (toSong(attributes))), ["index"]),
+        }
+    });
+};
+
+const toSong = (attributes: any): SongType => {
+    return {
+        index: attributes.index,
+        title: attributes.title,
+        stanzas: attributes.textjson,
+        topic: ''//attributes?.topic?.data?.attributes?.value
+    }
+};
+
 export default PrimarySearchAppBar

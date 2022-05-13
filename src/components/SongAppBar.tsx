@@ -8,8 +8,6 @@ import * as React from "react";
 import {alpha, styled} from "@mui/material/styles";
 import {useRouter} from "next/router";
 import {matchSorter} from "match-sorter";
-import { DocSearch } from "@docsearch/react";
-import "@docsearch/css"
 // import useLazyCSS from '../styles/useLazyCSS';
 
 const Search = styled('div')(({theme}) => ({
@@ -64,10 +62,10 @@ const SongAppBar = ({songs}: SongAppBarPropTypes) => {
             <Toolbar sx={{
                 display: 'flex',
                 alignContent: 'center',
-                pl:0
+                pl: 0
             }}>
-                <Button sx={{pl:0}}
-                    onClick={() => router.push('/').finally()}>
+                <Button sx={{pl: 0}}
+                        onClick={() => router.push('/').finally()}>
                     <Box sx={{
                         display: {
                             xs: 'none', sm: 'block'
@@ -89,11 +87,6 @@ const SongAppBar = ({songs}: SongAppBarPropTypes) => {
                     display: 'flex',
                     justifyContent: 'center'
                 }}>
-                    {/*<DocSearch*/}
-                    {/*    appId="6FZ2U75TWW"*/}
-                    {/*    apiKey="7ebf61ebf147b0f304d66848073e7087"*/}
-                    {/*    indexName="mda"*/}
-                    {/*/>*/}
                     <Grid item xs={12} md={6} lg={4}>
                         <Autocomplete id="search-songs"
                                       autoComplete

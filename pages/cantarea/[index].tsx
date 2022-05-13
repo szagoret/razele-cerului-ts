@@ -1,11 +1,10 @@
-import database from '../../db/db-2021.json';
-import {find, sortBy} from 'lodash';
-import {GetStaticProps} from "next";
 import {Container, Grid, Typography} from "@mui/material";
 import Song from "../../src/components/Song";
 import React from "react";
 import {SongType} from "../../song";
+import {gql} from "@apollo/client";
 import Layout from "../../src/components/Layout";
+import client from "../../apollo-client";
 
 const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, title: string }> }) => {
     return (
@@ -45,24 +44,85 @@ const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, ti
 
 export default Index;
 
-export const getStaticPaths = () => {
-    const paths = database.map(song => ({
-        params: {index: String(song.index)}
-    }));
+export async function getStaticPaths() {
+    const {data} = await client.query({
+        query: gql`
+        query {
+songs(pagination: { limit: 1000 }) {
+    data {
+      attributes {
+        index
+      }
+    }
+  }
+}
+      `,
+    });
+    const paths = data.songs.data.map(({attributes: song}: any) => {
+        return ({
+            // @ts-ignore
+            params: {index: String(song.index)}
+        });
+    });
     return ({
         paths: paths,
         fallback: false
     });
 };
 
-export const getStaticProps: GetStaticProps = ({params}) => {
+export async function getStaticProps({params}: any) {
+    const {data: {songs: {data: songs}}} = await client.query({
+        query: gql`
+        query Songs($index: Int) {
+songs(pagination: { limit: 1 }, filters: { index: { eq: $index } } ) {
+    data {
+      attributes {
+        title
+        textjson
+        topic {
+          data {
+            attributes {
+              value
+            }
+          }
+        }
+        index
+      }
+    }
+  }
+}
+      `,
+        variables: {index: parseInt(params?.index as string)}
+    });
+
+    const {data: {songs: {data: allSongs}}} = await client.query({
+        query: gql`
+        query {
+songs(pagination: { limit: 1000 }) {
+    data {
+      attributes {
+        index
+        title
+      }
+    }
+  }
+}
+      `,
+    });
+
     return ({
         props: {
-            song: find(database, ["index", parseInt(params?.index as string)]),
-            songs: sortBy(database.map((song) => ({
-                index: song.index,
-                title: `${song.index}. ${song.title}`
-            })), ["index"]),
+            song: toSong(songs[0].attributes),
+            songs: allSongs.map(({attributes: {index, title}}: any) => ({index, title}))
         }
     });
+};
+
+const toSong = (attributes: any): SongType => {
+    return {
+        index: attributes.index,
+        title: attributes.title,
+        stanzas: attributes.textjson,
+        topic: ''//attributes?.topic?.data?.attributes?.value
+    }
 };
