@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Box, Container, Grid, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import {GetStaticProps} from "next";
-import {chain, chunk, sortBy} from "lodash";
+import {chunk, sortBy} from "lodash";
 import db from "../db/db-2021.json";
 import {useRouter} from "next/router";
 import Layout from "../src/components/Layout";
@@ -13,19 +13,14 @@ type HomePagePropTypes = {
 };
 const PrimarySearchAppBar = ({songs}: HomePagePropTypes) => {
     const router = useRouter();
-    const filterSongs = sortBy(chain(songs).map(song => ({
-        index: song.index,
-        title: `${song.index}. ${song.title}`
-    })).value(), ["index"]);
     const arrayOfSongs: Array<Array<{ index: number, title: string }>> = chunk(sortBy(songs, ["index"]), 100);
     return (
-        <Layout title="Razele Cerului" songs={filterSongs} thumbPath="razelecerului.jpg">
+        <Layout title="Razele Cerului" thumbPath="razelecerului.jpg">
             <ThemeProvider
                 theme={createTheme({
                     components: {
                         MuiListItemButton: {
-                            defaultProps: {
-                            },
+                            defaultProps: {},
                         }
                     },
                 })}
