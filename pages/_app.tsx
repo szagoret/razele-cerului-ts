@@ -1,12 +1,12 @@
 import * as React from 'react';
-import Head from 'next/head';
 import {AppProps} from 'next/app';
-import {ThemeProvider} from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import {CacheProvider, EmotionCache} from '@emotion/react';
-import theme from '../src/styles/theme';
 import createEmotionCache from '../src/styles/createEmotionCache';
 import Script from "next/script";
+import {SettingsProvider, ThemeSettings} from "src/components/settings";
+import MotionLazyContainer from "src/components/animate/MotionLazyContainer";
+import ProgressBar from "src/components/progress-bar";
+import ThemeProvider from "src/theme";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -34,14 +34,16 @@ const MyApp = (props: MyAppProps) => {
                 }
             </Script>
             <CacheProvider value={emotionCache}>
-                <Head>
-                    <title key="title">Razele Cerului</title>
-                    <meta name="viewport" content="initial-scale=1, width=device-width"/>
-                </Head>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline/>
-                    <Component {...pageProps} />
-                </ThemeProvider>
+                <SettingsProvider>
+                    <MotionLazyContainer>
+                        <ThemeProvider>
+                            <ThemeSettings>
+                                <ProgressBar/>
+                                <Component {...pageProps} />
+                            </ThemeSettings>
+                        </ThemeProvider>
+                    </MotionLazyContainer>
+                </SettingsProvider>
             </CacheProvider>
         </>
     );

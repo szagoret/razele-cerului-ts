@@ -1,6 +1,6 @@
 import * as React from "react";
 import Stanza from "./Stanza";
-import {SongType} from "../../song";
+import {SongType} from "src/song";
 import {Box} from "@mui/material";
 
 type SongProps = {

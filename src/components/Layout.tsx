@@ -7,7 +7,7 @@ const Layout = ({
                     title = 'Razele Cerului',
                     thumbPath = 'razelecerului.jpg',
                     songs = []
-                }: { children: any, title: string,  thumbPath: string, songs: Array<{ index: number, title: string, }> }) => (
+                }: { children: any, title: string, thumbPath: string, songs: Array<{ index: number, title: string, }> }) => (
     <div>
         <Head>
             <title>{title}</title>
@@ -15,10 +15,7 @@ const Layout = ({
             <meta property="og:image" content={`/thumb/${thumbPath}`}/>
             <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
         </Head>
-        <header>
-            <SongAppBar songs={songs}/>
-        </header>
-
+        <SongAppBar songs={songs}/>
         {children}
     </div>
 );

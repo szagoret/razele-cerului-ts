@@ -1,0 +1,1 @@
+export type ThemeModeValue = 'light' | 'dark';

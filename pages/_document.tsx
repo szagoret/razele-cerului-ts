@@ -1,7 +1,8 @@
 import * as React from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, {Head, Html, Main, NextScript} from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from "../src/styles/createEmotionCache";
+import palette from "src/theme/palette";
 
 export default class MyDocument extends Document {
     render() {
@@ -9,78 +10,59 @@ export default class MyDocument extends Document {
             <Html lang="en">
                 <Head>
                     {/* PWA primary color */}
-                    <meta name="theme-color" content="#2a9d8f" />
-                    <meta property="og:title" content="Razele Cerului" />
-                    <meta property="og:description" content="O carte de cantari duhovnicesti" />
-                    <meta name="google-site-verification" content="sVjeWi_5fRlTI5G1punzs8BcjOc__cTioK9fSq-0JuQ" />
+                    {/*<meta name="theme-color" content="#2a9d8f" />*/}
+                    <meta name="theme-color" content={palette('light').primary.main}/>
+                    <meta property="og:title" content="Razele Cerului"/>
+                    <meta name="emotion-insertion-point" content=""/>
+                    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+                    <meta property="og:description" content="O carte de cântări duhovnicesti"/>
+                    <meta name="google-site-verification" content="sVjeWi_5fRlTI5G1punzs8BcjOc__cTioK9fSq-0JuQ"/>
+                    <link rel="preconnect" href="https://6FZ2U75TWW-dsn.algolia.net" crossOrigin={""}/>
                     <link
                         rel="stylesheet"
                         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
                     />
+                    <title>Razele Cerului</title>
+                    {(this.props as any).emotionStyleTags}
                 </Head>
                 <body>
-                <Main />
-                <NextScript />
+                <Main/>
+                <NextScript/>
                 </body>
             </Html>
         );
     }
 }
 
-// `getInitialProps` belongs to `_document` (instead of `_app`),
-// it's compatible with static-site generation (SSG).
-MyDocument.getInitialProps = async (ctx) => {
-    // Resolution order
-    //
-    // On the server:
-    // 1. app.getInitialProps
-    // 2. page.getInitialProps
-    // 3. document.getInitialProps
-    // 4. app.render
-    // 5. page.render
-    // 6. document.render
-    //
-    // On the server with error:
-    // 1. document.getInitialProps
-    // 2. app.render
-    // 3. page.render
-    // 4. document.render
-    //
-    // On the client
-    // 1. app.getIni![](../public/sun-rays-md.png)tialProps
-    // 2. page.getInitialProps
-    // 3. app.render
-    // 4. page.render
 
+MyDocument.getInitialProps = async (ctx) => {
     const originalRenderPage = ctx.renderPage;
 
-    // You can consider sharing the same emotion cache between all the SSR requests to speed up performance.
-    // However, be aware that it can have global side effects.
     const cache = createEmotionCache();
-    const { extractCriticalToChunks } = createEmotionServer(cache);
+    const {extractCriticalToChunks} = createEmotionServer(cache);
 
     ctx.renderPage = () =>
         originalRenderPage({
-            // eslint-disable-next-line react/display-name
-            enhanceApp: (App: any) => (props) => <App emotionCache={cache} {...props} />,
+            enhanceApp: (App: any) =>
+                function EnhanceApp(props) {
+                    return <App emotionCache={cache} {...props} />;
+                },
         });
 
     const initialProps = await Document.getInitialProps(ctx);
-    // This is important. It prevents emotion to render invalid HTML.
-    // See https://github.com/mui-org/material-ui/issues/26561#issuecomment-855286153
     const emotionStyles = extractCriticalToChunks(initialProps.html);
     const emotionStyleTags = emotionStyles.styles.map((style) => (
         <style
             data-emotion={`${style.key} ${style.ids.join(' ')}`}
             key={style.key}
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: style.css }}
+            dangerouslySetInnerHTML={{__html: style.css}}
         />
     ));
 
     return {
         ...initialProps,
-        // Styles fragment is rendered after the app and page rendering finish.
-        styles: [...React.Children.toArray(initialProps.styles), ...emotionStyleTags],
+        emotionStyleTags,
     };
 };
