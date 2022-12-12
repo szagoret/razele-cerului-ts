@@ -1,5 +1,5 @@
 import database from '../../db/db-2021.json';
-import {find, sortBy} from 'lodash';
+import {find} from 'lodash';
 import {GetStaticProps} from "next";
 import {Container, Grid, Typography} from "@mui/material";
 import Song from "src/components/Song";
@@ -9,11 +9,11 @@ import Layout from "src/components/Layout";
 import {useSettingsContext} from "src/components/settings";
 import {useTheme} from "@mui/material/styles";
 
-const Index = ({song, songs}: { song: SongType, songs: Array<{ index: number, title: string }> }) => {
+const Index = ({song}: { song: SongType }) => {
     const theme = useTheme();
     const {themeMode} = useSettingsContext();
     return (
-        <Layout title={`${song.index}. ${song.title}`} songs={songs} thumbPath={`rc-${song.index}.jpeg`}>
+        <Layout title={`${song.index}. ${song.title}`} thumbPath={`rc-${song.index}.jpeg`}>
             <Container sx={{p: 3, display: "flex", justifyContent: "center", flexDirection: 'column'}}>
                 <Grid container>
                     <Grid item xs={12}>
@@ -62,11 +62,7 @@ export const getStaticPaths = () => {
 export const getStaticProps: GetStaticProps = ({params}) => {
     return ({
         props: {
-            song: find(database, ["index", parseInt(params?.index as string)]),
-            songs: sortBy(database.map((song) => ({
-                index: song.index,
-                title: `${song.index}. ${song.title}`
-            })), ["index"]),
+            song: find(database, ["index", parseInt(params?.index as string)])
         }
     });
 };

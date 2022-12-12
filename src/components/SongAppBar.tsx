@@ -2,8 +2,6 @@ import {AppBar, Box, BoxProps, Button, IconButton, Stack, Toolbar, Typography} f
 import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import {alpha, styled, useTheme} from "@mui/material/styles";
-import {useRouter} from "next/router";
-// import "@docsearch/css"
 import Logo from "./logo";
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
@@ -61,15 +59,12 @@ const SearchIconWrapper = styled('div')(({theme}) => ({
     justifyContent: 'center',
 }));
 
-type SongAppBarPropTypes = {
-    songs: Array<{ index: number, title: string }>,
-};
+type SongAppBarPropTypes = {};
 
 const FADE_DURATION = 100;
-const SongAppBar = ({songs}: SongAppBarPropTypes) => {
+const SongAppBar = () => {
     const theme = useTheme();
     const {onToggleMode, themeMode} = useSettingsContext();
-    const router = useRouter();
 
 
     const searchButtonRef = React.useRef(null);
